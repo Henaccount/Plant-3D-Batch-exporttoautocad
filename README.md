@@ -10,14 +10,8 @@ PnIdBatchExportToAutoCAD – exports PnID files, destination selection by file d
 BatchExportToAutoCADHL – exports 3d files, destination by text input, this is good for batching the command
 PnIdBatchExportToAutoCADHL – exports PnID files, destination by text input, this is good for batching the command
 
- 
+Critial code for this tool is based on:
 
-See demo here:
-
-http://au.autodesk.com/au-online/classes-on-demand/class-catalog/2016/revit/pt21758#chapter=0
-
- 
-
-See this article about how do create the dll and how to install it: http://autode.sk/2jYKHJy 
+https://www.keanw.com/2014/03/autocad-2015-calling-commands.html
 
 </pre>
