@@ -1,6 +1,6 @@
 # Plant-3D-Batch-exporttoautocad
 <pre>
-This tool is exporting all project files as AutoCAD. It keeps the folder structure for the export. There are two commands, one for P&ID project files and another one for Plant 3D project files. "related files" are not included in the export, as they should be already plain AutoCAD.
+This tool (proof-of-concept, sample code, use at own risk) is exporting all project files as AutoCAD. It keeps the folder structure for the export. There are two commands, one for P&ID project files and another one for Plant 3D project files. "related files" are not included in the export, as they should be already plain AutoCAD.
 
 How to use the script:
 
