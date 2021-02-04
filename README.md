@@ -12,7 +12,7 @@ PnIdBatchExportToAutoCADHL – exports PnID files, destination by text input, th
 
 Critial code parts for this tool are based on:
 
-<a href="https://www.keanw.com/2014/03/autocad-2015-calling-commands.html">https://www.keanw.com/2014/03/autocad-2015-calling-commands.html</a>
+https://www.keanw.com/2014/03/autocad-2015-calling-commands.html
 https://adndevblog.typepad.com/autocad/2012/05/when-to-lock-the-document.html
 
 
