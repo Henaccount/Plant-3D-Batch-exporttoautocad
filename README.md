@@ -5,9 +5,11 @@ This tool (proof-of-concept, sample code, use at own risk) is exporting all proj
 How to use the script:
 
 BatchExportToAutoCAD – exports 3d files, destination selection by file dialog
+
 PnIdBatchExportToAutoCAD – exports PnID files, destination selection by file dialog
 
 BatchExportToAutoCADHL – exports 3d files, destination by text input, this is good for batching the command
+
 PnIdBatchExportToAutoCADHL – exports PnID files, destination by text input, this is good for batching the command
 
 Critial code parts for this tool are based on:
