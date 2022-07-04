@@ -8,7 +8,11 @@ BatchExportToAutoCAD – exports 3d files, destination selection by file dialog
 
 PnIdBatchExportToAutoCAD – exports PnID files, destination selection by file dialog
 
-BatchExportToAutoCADHL – exports 3d files, destination by text input, this is good for batching the command
+BatchExportToAutoCADHL – exports 3d files, destination by text input, this is good for batching the command, e.g.:
+
+<pre>batchexporttoautocadhl "D:\Downloads\metric2023\Plant 3D Models" "D:\Downloads\test"</pre>
+
+(command "sourcefolder of Plant 3D models" "destination folder of exported AutoCAD")
 
 PnIdBatchExportToAutoCADHL – exports PnID files, destination by text input, this is good for batching the command
 
