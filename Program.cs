@@ -41,13 +41,21 @@ namespace BatchExports
 
             try
             {
-
+                string sourcefolder = "";
                 string destfolder = "";
+
 
                 if (!head)
                 {
+                    PromptResult pr = AcadApp.DocumentManager.MdiActiveDocument.Editor.GetString("\nsourcefolder: ");
+                    if (pr.Status != PromptStatus.OK)
+                    {
+                        //Helper.oEditor.WriteMessage("No configuration string was provided, using defaults\n");
+                    }
+                    else
+                        sourcefolder = pr.StringResult;
 
-                    PromptResult pr = AcadApp.DocumentManager.MdiActiveDocument.Editor.GetString("\ndestinationfolder(optional): ");
+                    pr = AcadApp.DocumentManager.MdiActiveDocument.Editor.GetString("\ndestinationfolder: ");
                     if (pr.Status != PromptStatus.OK)
                     {
                         //Helper.oEditor.WriteMessage("No configuration string was provided, using defaults\n");
@@ -59,9 +67,13 @@ namespace BatchExports
 
                 if (destfolder.Equals(""))
                 {
-                    OpenFileDialog thedialog = new OpenFileDialog("Select destination folder", "defaultName", "extension", "dialogName", OpenFileDialog.OpenFileDialogFlags.AllowFoldersOnly);
+                    OpenFileDialog thedialog = new OpenFileDialog("Select source folder", "defaultName", "extension", "dialogName", OpenFileDialog.OpenFileDialogFlags.AllowFoldersOnly);
                     thedialog.ShowDialog();
-                    destfolder = thedialog.Filename;
+                    sourcefolder = thedialog.Filename;
+
+                    OpenFileDialog thedialog1 = new OpenFileDialog("Select destination folder", "defaultName", "extension", "dialogName", OpenFileDialog.OpenFileDialogFlags.AllowFoldersOnly);
+                    thedialog1.ShowDialog();
+                    destfolder = thedialog1.Filename;
                 }
 
                 if (destfolder.Equals(""))
@@ -85,7 +97,7 @@ namespace BatchExports
 
                 System.Collections.Generic.List<PnPProjectDrawing> dwgList = prj.GetPnPDrawingFiles();
 
-                Document docToWorkOn = null;
+
 
                 System.IO.DirectoryInfo projectdwgfolderobj = System.IO.Directory.CreateDirectory(prj.ProjectDwgDirectory);
 
@@ -102,18 +114,19 @@ namespace BatchExports
 
                 foreach (PnPProjectDrawing dwg in dwgList)
                 {
+                    Document docToWorkOn = null;
                     try
                     {
                         errorstack += dwg.ResolvedFilePath + "\n";
+
+                        if (!System.IO.File.Exists(dwg.ResolvedFilePath) || !dwg.ResolvedFilePath.Contains(sourcefolder))
+                            continue;
 
                         string pathstub = dwg.ResolvedFilePath.Substring(projectdwgfolderobj.FullName.TrimEnd('\\').Length);
 
                         string pathstubexclfile = pathstub.Substring(0, pathstub.LastIndexOf("\\"));
 
                         System.IO.Directory.CreateDirectory(destfolder + pathstubexclfile);
-
-                        if (!System.IO.File.Exists(dwg.ResolvedFilePath))
-                            continue;
 
                         if (System.IO.File.Exists(destfolder + pathstub))
                         {
@@ -128,26 +141,8 @@ namespace BatchExports
 
                         using (docToWorkOn.LockDocument())
                         {
-
-
-                            await AcadApp.DocumentManager.ExecuteInCommandContextAsync(
-
-              async (obj) =>
-              {
-
-
-                  await AcadApp.DocumentManager.MdiActiveDocument.Editor.CommandAsync("_.-EXPORTTOAUTOCAD", "2013", destfolder + pathstub);
-
-
-              },
-
-              null
-
-            );
-
-
-
-
+                            await AcadApp.DocumentManager.ExecuteInCommandContextAsync(async (obj) => { await AcadApp.DocumentManager.MdiActiveDocument.Editor.CommandAsync("_.-EXPORTTOAUTOCAD", "2013", destfolder + pathstub); }, null);
+                            // this works: await AcadApp.DocumentManager.ExecuteInCommandContextAsync(async (obj) => { await AcadApp.DocumentManager.MdiActiveDocument.Editor.CommandAsync("filedia", "0", "NWCOUT", destfolder + pathstub + ".nwc", "filedia", "1"); }, null);
                         }
 
 
@@ -163,15 +158,16 @@ namespace BatchExports
                     }
                     finally
                     {
-                        if (docToWorkOn != null)
+                        if (docToWorkOn != null) { 
                             docToWorkOn.CloseAndDiscard();
+                            }
                     }
 
                 }
 
 
 
-                if(head)
+                if (head)
                     System.Windows.Forms.MessageBox.Show("Batch Export to AutoCAD finished. Selected folder: " + destfolder);
             }
             catch (System.Exception e)
@@ -182,9 +178,9 @@ namespace BatchExports
             }
             finally
             {
-                AcadApp.DocumentManager.MdiActiveDocument.Editor.WriteMessage(errorstack); 
+                AcadApp.DocumentManager.MdiActiveDocument.Editor.WriteMessage(errorstack);
             }
-//here
+            //here
         }
 
 
